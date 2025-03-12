@@ -1,0 +1,30 @@
+[
+{
+  "model": "tareas.familia",
+  "pk": 1,
+  "fields": {
+    "nombre": "Urgente"
+  }
+},
+{
+  "model": "tareas.familia",
+  "pk": 2,
+  "fields": {
+    "nombre": "Prioritaria"
+  }
+},
+{
+  "model": "tareas.familia",
+  "pk": 3,
+  "fields": {
+    "nombre": "Normal"
+  }
+},
+{
+  "model": "tareas.familia",
+  "pk": 4,
+  "fields": {
+    "nombre": "No prioritaria"
+  }
+}
+]
