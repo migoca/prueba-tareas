@@ -70,6 +70,13 @@
               <v-icon
                 small
                 class="mr-2"
+                @click="openDialogShowTarea(item)"
+              >
+                mdi-eye
+              </v-icon>
+              <v-icon
+                small
+                class="mr-2"
                 @click="openDialogEditTarea(item)"
               >
                 mdi-pencil
@@ -176,6 +183,34 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+
+      <v-dialog v-model="dialog_show_tarea" max-width="660">
+        <v-card class="rounded-lg">      
+          <v-card-title>
+            <span class="text-h6 primary--text">Ver Tarea</span>
+          </v-card-title>          
+          <v-divider></v-divider>
+          <v-card-text>
+            <div class="font-weight-bold mt-6">Título:</div>
+            <div>{{ current_tarea.titulo }}</div>
+            <div class="font-weight-bold mt-2">Familia:</div>
+            <div>{{ getFamiliaName(current_tarea.familia) }}</div>
+            <div class="font-weight-bold mt-2">Descripción:</div>
+            <div>{{ current_tarea.descripcion }}</div>
+            <div class="font-weight-bold mt-2">Estado:</div>
+            <div>{{ current_tarea.estado }}</div>
+            <div class="font-weight-bold mt-2">Fecha creación:</div>
+            <div>{{ current_tarea.fecha_creacion }}</div>
+            <div class="font-weight-bold mt-2">Fecha vencimiento:</div>
+            <div>{{ current_tarea.fecha_vencimiento }}</div>
+          </v-card-text>      
+        
+          <v-card-actions>
+            <v-btn @click="closeDialogShowTarea">Cancelar</v-btn>          
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </template>
   
@@ -188,12 +223,14 @@
         tareas: [],
         familias: [],
         dialog_edit_tarea: false,
+        dialog_show_tarea: false,
         current_tarea: {
           id: null,
           titulo: "",
           familia: null,
           descripcion: "",
           estado: "pendiente",
+          fecha_creacion: null,
           fecha_vencimiento: null
         },
         datepicker_menu: false,
@@ -265,6 +302,20 @@
       async deleteTarea(item) {
         await api.delete(`tareas/${item.id}/`);
         this.getTareas();
+      },
+      openDialogShowTarea(tarea) {        
+        this.current_tarea.id = tarea.id;
+        this.current_tarea.titulo = tarea.titulo;
+        this.current_tarea.familia = tarea.familia;
+        this.current_tarea.descripcion = tarea.descripcion;
+        this.current_tarea.estado = tarea.estado;
+        this.current_tarea.fecha_creacion = tarea.fecha_creacion
+        this.current_tarea.fecha_vencimiento = tarea.fecha_vencimiento;
+        this.dialog_show_tarea = true;
+      },
+      closeDialogShowTarea() {
+        this.resetCurrentTarea();
+        this.dialog_show_tarea = false;
       },
       openDialogCreateTarea() {
         this.resetCurrentTarea();
